@@ -16,16 +16,14 @@ class ReviewScreen extends ConsumerStatefulWidget {
   ConsumerState<ReviewScreen> createState() => _ReviewScreenState();
 }
 
-class _ReviewScreenState extends ConsumerState<ReviewScreen> with SingleTickerProviderStateMixin {
+class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   late final WebViewController _webController;
-  late final AnimationController _flipController;
   bool _answerShown = false;
   DateTime? _cardStartTime;
 
   @override
   void initState() {
     super.initState();
-    _flipController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
     _webController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(CupertinoColors.systemBackground);
@@ -37,7 +35,6 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> with SingleTickerPr
 
   @override
   void dispose() {
-    _flipController.dispose();
     super.dispose();
   }
 
@@ -196,11 +193,22 @@ class _ProgressBar extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(4),
-              child: LinearProgressIndicator(
-                value: progress,
-                backgroundColor: CupertinoColors.systemFill,
-                valueColor: const AlwaysStoppedAnimation(CupertinoColors.activeBlue),
-                minHeight: 6,
+              child: SizedBox(
+                height: 6,
+                child: Stack(
+                  children: [
+                    Container(color: CupertinoColors.systemFill),
+                    FractionallySizedBox(
+                      widthFactor: progress,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: CupertinoColors.activeBlue,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
