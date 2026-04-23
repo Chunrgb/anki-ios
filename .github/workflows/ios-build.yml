@@ -16,13 +16,6 @@ jobs:
       - name: Checkout anki-ios
         uses: actions/checkout@v4
 
-      - name: Checkout Anki core (rslib + ftl submodule)
-        run: |
-          git clone --depth=1 --recurse-submodules --shallow-submodules \
-            https://github.com/ankitects/anki.git anki-core
-          echo "rslib: $(ls anki-core/rslib/Cargo.toml)"
-          echo "ftl sample: $(ls anki-core/ftl/core/ | head -3)"
-
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -45,9 +38,6 @@ jobs:
           flutter-version: "3.22.x"
           channel: stable
           cache: true
-
-      - name: Install protoc
-        run: brew install protobuf
 
       - name: Install flutter_rust_bridge_codegen
         run: cargo install flutter_rust_bridge_codegen --version "^2.0" --locked
