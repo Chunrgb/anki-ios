@@ -58,6 +58,9 @@ jobs:
           flutter create --platforms=ios --project-name anki_ios --org com.ankiios .
           rm -rf lib
           mv lib_backup lib
+          # Set deployment target to 15.0 in generated xcodeproj
+          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*/IPHONEOS_DEPLOYMENT_TARGET = 15.0/g' \
+            ios/Runner.xcodeproj/project.pbxproj
 
       - name: Install CocoaPods dependencies
         run: pod install --repo-update
