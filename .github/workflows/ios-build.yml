@@ -16,11 +16,12 @@ jobs:
       - name: Checkout anki-ios
         uses: actions/checkout@v4
 
-      - name: Checkout Anki core (rslib)
+      - name: Checkout Anki core (rslib + ftl submodule)
         run: |
-          git clone --depth=1 https://github.com/ankitects/anki.git anki-core
-          echo "rslib path: $(ls anki-core/rslib/Cargo.toml)"
-          echo "ftl path: $(ls anki-core/ftl/core/ | head -3)"
+          git clone --depth=1 --recurse-submodules --shallow-submodules \
+            https://github.com/ankitects/anki.git anki-core
+          echo "rslib: $(ls anki-core/rslib/Cargo.toml)"
+          echo "ftl sample: $(ls anki-core/ftl/core/ | head -3)"
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
