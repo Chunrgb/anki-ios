@@ -45,7 +45,7 @@ class _BrowserScreenState extends ConsumerState<BrowserScreen> {
                     ? const _EmptyState()
                     : ListView.separated(
                         itemCount: notes.length,
-                        separatorBuilder: (_, __) => const Divider(height: 0, indent: 16),
+                        separatorBuilder: (_, __) => Container(height: 0.5, margin: const EdgeInsetsDirectional.only(start: 16), color: CupertinoColors.separator),
                         itemBuilder: (ctx, i) => _NoteRow(note: notes[i]),
                       ),
                 loading: () => const Center(child: CupertinoActivityIndicator()),

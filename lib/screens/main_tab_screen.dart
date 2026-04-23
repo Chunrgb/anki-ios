@@ -13,7 +13,7 @@ class MainTabScreen extends StatelessWidget {
       tabBar: CupertinoTabBar(
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.square_stack_3d_up),
+            icon: Icon(CupertinoIcons.square_stack),
             label: 'Baralhos',
           ),
           BottomNavigationBarItem(
@@ -21,7 +21,7 @@ class MainTabScreen extends StatelessWidget {
             label: 'Navegar',
           ),
           BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.chart_bar),
+            icon: Icon(CupertinoIcons.graph_circle),
             label: 'Estatísticas',
           ),
           BottomNavigationBarItem(
@@ -32,11 +32,11 @@ class MainTabScreen extends StatelessWidget {
       ),
       tabBuilder: (context, index) {
         return switch (index) {
-          0 => const CupertinoTabView(builder: (_) => DeckListScreen()),
-          1 => const CupertinoTabView(builder: (_) => BrowserScreen()),
-          2 => const CupertinoTabView(builder: (_) => StatsScreen()),
-          3 => const CupertinoTabView(builder: (_) => SettingsScreen()),
-          _ => const SizedBox.shrink(),
+          0 => CupertinoTabView(builder: (_) => const DeckListScreen()),
+          1 => CupertinoTabView(builder: (_) => const BrowserScreen()),
+          2 => CupertinoTabView(builder: (_) => const StatsScreen()),
+          3 => CupertinoTabView(builder: (_) => const SettingsScreen()),
+          _ => CupertinoTabView(builder: (_) => const SizedBox.shrink()),
         };
       },
     );

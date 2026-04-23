@@ -49,7 +49,7 @@ class DeckTile extends StatelessWidget {
                 depth: depth + 1,
               )),
         if (depth == 0)
-          const Divider(height: 0, indent: 16),
+          Container(height: 0.5, margin: const EdgeInsetsDirectional.only(start: 16), color: CupertinoColors.separator),
       ],
     );
   }
