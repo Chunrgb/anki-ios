@@ -1,0 +1,18 @@
+[package]
+name = "anki_bridge"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["staticlib", "cdylib"]
+name = "anki_bridge"
+
+[dependencies]
+flutter_rust_bridge = "=2.0.0"
+anki = { path = "../../../anki-main/anki-main/rslib" }
+anki_proto = { path = "../../../anki-main/anki-main/rslib/proto" }
+tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
+once_cell = "1"
+parking_lot = "0.12"
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }

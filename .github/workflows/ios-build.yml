@@ -1,0 +1,100 @@
+name: iOS Build
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    name: Build iOS IPA (unsigned)
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: "1.80"
+          targets: aarch64-apple-ios,aarch64-apple-ios-sim,x86_64-apple-ios
+
+      - name: Cache Rust build
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            rust/target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('rust/Cargo.toml') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.22.x"
+          channel: stable
+          cache: true
+
+      - name: Install flutter_rust_bridge_codegen
+        run: cargo install flutter_rust_bridge_codegen --version "^2.0" --locked
+
+      - name: Flutter pub get
+        run: flutter pub get
+
+      - name: Generate bridge bindings
+        run: flutter_rust_bridge_codegen generate
+
+      - name: Build Rust static lib (device)
+        run: cargo build --release --target aarch64-apple-ios
+        working-directory: rust
+
+      - name: Install CocoaPods dependencies
+        run: pod install --repo-update
+        working-directory: ios
+
+      - name: Build iOS app (no code signing)
+        run: |
+          flutter build ios \
+            --release \
+            --no-codesign \
+            --dart-define=FLUTTER_WEB_AUTO_DETECT=false
+
+      - name: Package as unsigned IPA
+        run: |
+          mkdir -p output/Payload
+          cp -r build/ios/iphoneos/Runner.app output/Payload/
+          cd output
+          zip -r Anki-unsigned.ipa Payload/
+          echo "IPA size: $(du -sh Anki-unsigned.ipa | cut -f1)"
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Anki-iOS-unsigned
+          path: output/Anki-unsigned.ipa
+          retention-days: 14
+
+  lint:
+    name: Dart analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.22.x"
+          channel: stable
+
+      - name: pub get
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze --no-fatal-infos
+
+      - name: Test
+        run: flutter test

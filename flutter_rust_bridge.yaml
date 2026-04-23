@@ -1,0 +1,15 @@
+rust_input: "rust/src/api.rs"
+dart_output: "lib/src/rust"
+c_output: "ios/Runner/bridge_generated.h"
+
+# iOS-specific static lib
+ios:
+  cargo_build_args:
+    - "--release"
+  targets:
+    - aarch64-apple-ios
+    - aarch64-apple-ios-sim
+
+# Extra Dart features
+dart_enums_style: true
+use_dart_async: true

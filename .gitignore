@@ -1,0 +1,38 @@
+# Dart / Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+*.iml
+
+# Rust
+rust/target/
+Cargo.lock
+
+# iOS
+ios/Pods/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/.symlinks/
+ios/Frameworks/
+ios/Runner.xcworkspace/xcshareddata/
+
+# macOS
+macos/Flutter/ephemeral/
+
+# Generated
+lib/src/rust/frb_generated.dart.bak
+rust/src/frb_generated.rs
+
+# Editor
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Secrets
+*.p12
+*.mobileprovision
