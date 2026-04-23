@@ -18,9 +18,9 @@ jobs:
 
       - name: Checkout Anki core (rslib)
         run: |
-          git clone --depth=1 --filter=blob:none \
-            https://github.com/ankitects/anki.git anki-core
+          git clone --depth=1 https://github.com/ankitects/anki.git anki-core
           echo "rslib path: $(ls anki-core/rslib/Cargo.toml)"
+          echo "ftl path: $(ls anki-core/ftl/core/ | head -3)"
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
