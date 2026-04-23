@@ -13,8 +13,14 @@ jobs:
     runs-on: macos-14
 
     steps:
-      - name: Checkout
+      - name: Checkout anki-ios
         uses: actions/checkout@v4
+
+      - name: Checkout Anki core (rslib)
+        run: |
+          git clone --depth=1 --filter=blob:none \
+            https://github.com/ankitects/anki.git anki-core
+          echo "rslib path: $(ls anki-core/rslib/Cargo.toml)"
 
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable

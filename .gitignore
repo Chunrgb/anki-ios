@@ -12,6 +12,9 @@ build/
 rust/target/
 Cargo.lock
 
+# Anki core (cloned at build time)
+anki-core/
+
 # iOS
 ios/Pods/
 ios/Flutter/Flutter.framework
