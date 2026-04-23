@@ -1,5 +1,3 @@
-rust_input: "rust/src/api.rs"
+rust_input: "crate::api"
+rust_root: "rust"
 dart_output: "lib/src/rust"
-c_output: "ios/Runner/bridge_generated.h"
-dart_enums_style: true
-default_dart_async: true
