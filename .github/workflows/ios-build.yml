@@ -52,6 +52,13 @@ jobs:
         run: cargo build --release --target aarch64-apple-ios
         working-directory: rust
 
+      - name: Generate iOS project files
+        run: |
+          cp -r lib lib_backup
+          flutter create --platforms=ios --project-name anki_ios --org com.ankiios .
+          rm -rf lib
+          mv lib_backup lib
+
       - name: Install CocoaPods dependencies
         run: pod install --repo-update
         working-directory: ios
